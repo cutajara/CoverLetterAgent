@@ -27,7 +27,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-    - name: Run maxwell.py
+    - name: Run main.py
       env:
           OpenAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}
