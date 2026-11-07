@@ -78,13 +78,22 @@ def extract_text_from_docx(s3, bucket,  file_path: str) -> str:
     return "\n".join(para.text for para in doc.paragraphs if para.text.strip())
 
 
-def extract_text_from_markdown(s3, bucket,  file_path: str) -> str:
+def extract_text_from_markdown_s3(s3, bucket,  file_path: str) -> str:
     """Read all content from a Markdown file and return it as one string."""
     response = s3.get_object(Bucket=bucket, Key=file_path)
     file_content = response['Body'].read().decode('utf-8')
     #with open(file_path, 'r', encoding='utf-8') as file:
     #    return file.read()
     return file_content
+
+def extract_text_from_markdown_local(file_path: str) -> str:
+    """Read all content from a Markdown file and return it as one string."""
+    #response = s3.get_object(Bucket=bucket, Key=file_path)
+    #file_content = response['Body'].read().decode('utf-8')
+    with open(file_path, 'r', encoding='utf-8') as file:
+        return file.read()
+    #return file_content
+
 
 class OutputCoverLetter(BaseModel):
     """How to return output from the agent"""
@@ -117,9 +126,9 @@ def main(user_input: str):
     # Get Knowledge from S3
     resume = extract_text_from_pdf(s3, s3_bucket_name, "ACutajar_Resume.pdf") # Read resume
     covlet = extract_text_from_docx(s3, s3_bucket_name, "Asahi.docx") # Read Cover Letter
-    skills = extract_text_from_markdown(s3, s3_bucket_name, "anthony_cutajar_skills.md") # Read Skills
+    skills = extract_text_from_markdown_s3(s3, s3_bucket_name, "anthony_cutajar_skills.md") # Read Skills
 
-    SYSTEM_PROMPT = extract_text_from_markdown(s3, s3_bucket_name, "cover_letter_agent_system_prompt.md") # Read sys prompt
+    SYSTEM_PROMPT = extract_text_from_markdown_local("cover_letter_agent_system_prompt.md") # Read sys prompt
 
     # Insert texts into the sys prompt
     SYSTEM_PROMPT = SYSTEM_PROMPT.replace("{{RESUME}}", resume)
