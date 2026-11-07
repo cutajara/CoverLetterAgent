@@ -36,4 +36,5 @@ jobs:
           AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           MOB_NUM: ${{ secrets.MOB_NUM }}
-      run: python main.py ${{ $inputs.job_description }}
+          JOB_DESCRIPTION: ${{ inputs.job_description }}
+      run: python main.py "$JOB_DESCRIPTION"
