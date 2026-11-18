@@ -144,7 +144,7 @@ def main(user_input: str):
 
     # Create agent
     agent = create_agent( # Define the agent
-            ChatOpenAI(model="gpt-4o", api_key=os.environ["OPENAI_API_KEY"]), 
+            ChatOpenAI(model="gpt-6-luna", api_key=os.environ["OPENAI_API_KEY"]), 
             #tools=[query_embeddings, search_tool],
             #checkpointer=InMemorySaver(),
             system_prompt=SYSTEM_PROMPT,
